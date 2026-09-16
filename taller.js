@@ -79,8 +79,8 @@ class ListaEnlazada {
         return dato;
     }
 
-    // Buscar el penúltimo nodo
-    let temporal = this.cabeza;
+    
+    let temporal = this.cabeza; // hallar el penúltimo nodo
 
     while (temporal.siguiente !== this.ultimo) {
         temporal = temporal.siguiente;
