@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Lista Enlazada</title>
+    <style>
+        /* ESTILOS CSS */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; }
+        .contenedor { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 { color: #2c3e50; font-size: 2.2rem; }
+        header p { color: #7f8c8d; font-weight: bold; }
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .panel { background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 5px solid #2980b9; }
+        .panel h2 { color: #2980b9; margin-bottom: 20px; font-size: 1.4rem; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; }
+        .grupo-control { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #34495e; }
+        select, input[type="text"] { width: 100%; padding: 10px; border: 1px solid #bdc3c7; border-radius: 4px; font-size: 1rem; }
+        .area-inputs { min-height: 80px; margin-bottom: 20px; }
+        .radios { display: flex; gap: 15px; margin-top: 10px; }
+        .radios label { font-weight: normal; display: flex; align-items: center; gap: 5px; }
+        .btn-primario { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 4px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
+        .btn-primario:hover { background-color: #219a52; }
+        .caja-resultado { margin-bottom: 25px; }
+        .caja-resultado h3 { font-size: 1.1rem; color: #7f8c8d; margin-bottom: 10px; }
+        .mensaje { padding: 15px; border-radius: 4px; font-weight: bold; }
+        .mensaje.neutro { background-color: #ecf0f1; color: #2c3e50; }
+        .mensaje.exito { background-color: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .mensaje.error { background-color: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .vista-lista { background-color: #2c3e50; color: #ecf0f1; padding: 20px; border-radius: 4px; font-family: monospace; font-size: 1.2rem; letter-spacing: 1px; overflow-x: auto; white-space: nowrap; }
+        @media (max-width: 768px) { .grid-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <header>
+            <h1>Simulador de Lista Enlazada</h1>
+            <p>Estructura de Datos</p>
+        </header>
+
+        <main class="grid-layout">
+            <section class="panel panel-controles">
+                <h2>Menú de Operaciones</h2>
+                <div class="grupo-control">
+                    <label for="opcion-menu">Seleccione una opción:</label>
+                    <select id="opcion-menu">
+                        <option value="1">1. Construir o inicializar la lista</option>
+                        <option value="2">2. Insertar elemento</option>
+                        <option value="3">3. Retirar elemento</option>
+                        <option value="4">4. Consultar la lista (Recorrido)</option>
+                        <option value="5">5. Determinar número de elementos</option>
+                        <option value="6">6. Determinar si la lista es vacía</option>
+                        <option value="7">7. Consultar elemento actual</option>
+                    </select>
+                </div>
+                <div id="area-inputs" class="area-inputs"></div>
+                <button id="btn-ejecutar" class="btn-primario">EJECUTAR OPERACIÓN</button>
+            </section>
+
+            <section class="panel panel-resultados">
+                <h2>Resultados</h2>
+                <div class="caja-resultado">
+                    <h3>Mensaje del sistema:</h3>
+                    <p id="mensaje-sistema" class="mensaje neutro">Bienvenido. Por favor, inicialice la lista (Opción 1) para comenzar.</p>
+                </div>
+                <div class="caja-resultado">
+                    <h3>Estado visual de la Lista:</h3>
+                    <div id="vista-lista" class="vista-lista">Inexistente</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. TU CÓDIGO ORIGINAL INTACTO (LAS CLASES)
+        // ==========================================
+        class Nodo {
+            constructor(dato) {
+                this.dato = dato;
+                this.siguiente = null;
+            }
+        }
+
+        class ListaEnlazada {
+            constructor() {
+                this.cabeza = null;
+                this.actual = null;
+                this.tamano = 0;
+            }
+
+            esVacia() {
+                return this.cabeza === null;
+            }
+
+            insertarInicio(dato) {
+                const nuevo = new Nodo(dato);
+                nuevo.siguiente = this.cabeza;
+                this.cabeza = nuevo;
+
+                if (this.tamano === 0) {
+                    this.actual = nuevo;
+                }
+                this.tamano++;
+            }
+
+            insertarFinal(dato) {
+                const nuevo = new Nodo(dato);
+
+                if (this.esVacia()) {
+                    this.cabeza = nuevo;
+                    this.actual = nuevo;
+                } else {
+                    let temporal = this.cabeza;
+                    while (temporal.siguiente !== null) {
+                        temporal = temporal.siguiente;
+                    }
+                    temporal.siguiente = nuevo;
+                }
+                this.tamano++;
+            }
+
+            retirarInicio() {
+                if (this.esVacia()) {
+                    throw new Error("No se puede retirar: la lista está vacía");
+                }
+
+                const dato = this.cabeza.dato;
+                this.cabeza = this.cabeza.siguiente;
+                this.tamano--;
+
+                if (this.tamano === 0) {
+                    this.actual = null;
+                }
+                return dato;
+            }
+
+            retirarFinal() {
+                if (this.esVacia()) {
+                    throw new Error("No se puede retirar: la lista está vacía");
+                }
+
+                if (this.cabeza.siguiente === null) {
+                    const dato = this.cabeza.dato;
+                    this.cabeza = null;
+                    this.actual = null;
+                    this.tamano--;
+                    return dato;
+                }
+
+                let temporal = this.cabeza;
+                while (temporal.siguiente.siguiente !== null) {
+                    temporal = temporal.siguiente;
+                }
+
+                const dato = temporal.siguiente.dato;
+                temporal.siguiente = null;
+                this.actual = temporal;
+                this.tamano--;
+                return dato;
+            }
+
+            recorrer() {
+                const elementos = [];
+                let temporal = this.cabeza;
+
+                while (temporal !== null) {
+                    elementos.push(temporal.dato);
+                    temporal = temporal.siguiente;
+                }
+                return elementos;
+            }
+
+            longitud() {
+                return this.tamano;
+            }
+
+            consultarActual() {
+                if (this.actual === null) {
+                    return null;
+                }
+                return this.actual.dato;
+            }
+
+            avanzarActual() {
+                if (this.actual !== null) {
+                    this.actual = this.actual.siguiente;
+                }
+            }
+        }
+
+        // ==========================================
+        // 2. LÓGICA DE LA INTERFAZ HTML
+        // ==========================================
+        let miLista = null;
+
+        const selectMenu = document.getElementById('opcion-menu');
+        const areaInputs = document.getElementById('area-inputs');
+        const btnEjecutar = document.getElementById('btn-ejecutar');
+        const msgSistema = document.getElementById('mensaje-sistema');
+        const vistaLista = document.getElementById('vista-lista');
+
+        function actualizarInputs() {
+            const opcion = selectMenu.value;
+            areaInputs.innerHTML = ''; 
+
+            if (opcion === '2') {
+                areaInputs.innerHTML = `
+                    <label>Valor a insertar: <input type="text" id="input-valor" placeholder="Ej: 50"></label>
+                    <div class="radios">
+                        <label><input type="radio" name="posicion-insertar" value="inicio" checked> Al principio</label>
+                        <label><input type="radio" name="posicion-insertar" value="final"> Al final</label>
+                    </div>
+                `;
+            } else if (opcion === '3') {
+                areaInputs.innerHTML = `
+                    <div class="radios">
+                        <label><input type="radio" name="posicion-retirar" value="inicio" checked> Del principio</label>
+                        <label><input type="radio" name="posicion-retirar" value="final"> Del final</label>
+                    </div>
+                `;
+            }
+        }
+
+        function dibujarLista() {
+            if (!miLista) {
+                vistaLista.innerHTML = "Inexistente";
+                return;
+            }
+            const elementos = miLista.recorrer();
+            if (elementos.length === 0) {
+                vistaLista.innerHTML = "NULL";
+            } else {
+                vistaLista.innerHTML = elementos.join(' &rarr; ') + " &rarr; NULL";
+            }
+        }
+
+        function mostrarMensaje(texto, tipo = "exito") {
+            msgSistema.textContent = texto;
+            msgSistema.className = "mensaje " + tipo;
+        }
+
+        selectMenu.addEventListener('change', actualizarInputs);
+
+        btnEjecutar.addEventListener('click', () => {
+            const opcion = selectMenu.value;
+
+            if (!miLista && opcion !== '1') {
+                mostrarMensaje("Error: ¡Primero debes construir la lista (Opción 1)!", "error");
+                return;
+            }
+
+            try {
+                switch (opcion) {
+                    case '1':
+                        miLista = new ListaEnlazada();
+                        mostrarMensaje("Lista inicializada correctamente.");
+                        break;
+                    case '2':
+                        const valor = document.getElementById('input-valor').value;
+                        if(valor.trim() === '') {
+                            mostrarMensaje("Por favor ingresa un valor.", "error");
+                            return;
+                        }
+                        const posInsertar = document.querySelector('input[name="posicion-insertar"]:checked').value;
+                        if (posInsertar === 'inicio') {
+                            miLista.insertarInicio(valor);
+                            mostrarMensaje(`Elemento [${valor}] insertado al principio.`);
+                        } else {
+                            miLista.insertarFinal(valor);
+                            mostrarMensaje(`Elemento [${valor}] insertado al final.`);
+                        }
+                        break;
+                    case '3':
+                        const posRetirar = document.querySelector('input[name="posicion-retirar"]:checked').value;
+                        let valorRetirado;
+                        if (posRetirar === 'inicio') {
+                            valorRetirado = miLista.retirarInicio();
+                            mostrarMensaje(`Se retiró el elemento del principio: [${valorRetirado}].`);
+                        } else {
+                            valorRetirado = miLista.retirarFinal();
+                            mostrarMensaje(`Se retiró el elemento del final: [${valorRetirado}].`);
+                        }
+                        break;
+                    case '4':
+                        mostrarMensaje(`Recorrido completado. Elementos en la lista: ${miLista.longitud()}`);
+                        break;
+                    case '5':
+                        mostrarMensaje(`La longitud actual de la lista es: ${miLista.longitud()}`);
+                        break;
+                    case '6':
+                        mostrarMensaje(miLista.esVacia() ? "La lista SÍ está vacía." : "La lista NO está vacía.", "neutro");
+                        break;
+                    case '7':
+                        const actual = miLista.consultarActual();
+                        if (actual === null) {
+                            mostrarMensaje("El elemento actual es nulo.", "neutro");
+                        } else {
+                            mostrarMensaje(`El elemento actual es: [${actual}]`);
+                        }
+                        break;
+                }
+                dibujarLista();
+            } catch (error) {
+                mostrarMensaje(error.message, "error");
+            }
+        });
+
+        actualizarInputs();
+    </script>
+</body>
+</html>

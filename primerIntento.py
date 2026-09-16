@@ -9,25 +9,25 @@ class Nodo:
     """Representa un nodo de la lista: un dato + un puntero al siguiente."""
 
     def __init__(self, dato):
-        self.dato = dato      # el valor que guarda el nodo
-        self.siguiente = None  # equivalente a "next" en Java; apunta a otro Nodo o a None
+        self.dato = dato      
+        self.siguiente = None  
 
 
 class ListaEnlazada:
     """Lista enlazada simple con inserción/retiro solo al inicio y al final."""
 
     def __init__(self):
-        # 1. Construir / inicializar la lista
-        self.cabeza = None     # equivalente a "head"; None == null en Java
-        self.actual = None     # puntero auxiliar para "consultar el elemento actual"
-        self.tamano = 0        # contador de elementos (para longitud())
+        # Construir / inicializar la lista
+        self.cabeza = None    
+        self.actual = None    
+        self.tamano = 0       
 
     def es_vacia(self):
-        # 6. Determinar si la lista está vacía
+        #Determinar si la lista está vacía
         return self.cabeza is None
 
     def insertar_inicio(self, dato):
-        # 2. Insertar al PRINCIPIO
+        # Insertar al PRINCIPIO
         nuevo = Nodo(dato)
         nuevo.siguiente = self.cabeza
         self.cabeza = nuevo
@@ -36,7 +36,7 @@ class ListaEnlazada:
         self.tamano += 1
 
     def insertar_final(self, dato):
-        # 2. Insertar al FINAL
+        # Insertar al FINAL
         nuevo = Nodo(dato)
         if self.es_vacia():
             self.cabeza = nuevo
@@ -49,7 +49,7 @@ class ListaEnlazada:
         self.tamano += 1
 
     def retirar_inicio(self):
-        # 3. Retirar del PRINCIPIO
+        # Retirar del PRINCIPIO
         if self.es_vacia():
             raise Exception("No se puede retirar: la lista está vacía")
         dato = self.cabeza.dato
@@ -62,7 +62,7 @@ class ListaEnlazada:
         return dato
 
     def retirar_final(self):
-        # 3. Retirar del FINAL
+        # Retirar del FINAL
         if self.es_vacia():
             raise Exception("No se puede retirar: la lista está vacía")
 
@@ -82,7 +82,7 @@ class ListaEnlazada:
         return dato
 
     def recorrer(self):
-        # 4. Consultar la lista completa (recorrido)
+        # Consultar la lista completa (recorrido)
         elementos = []
         temp = self.cabeza
         while temp is not None:
@@ -91,11 +91,11 @@ class ListaEnlazada:
         return elementos
 
     def longitud(self):
-        # 5. Determinar el número de elementos
+        # Determinar el número de elementos
         return self.tamano
 
     def consultar_actual(self):
-        # 7. Consultar el elemento actual
+        # Consultar el elemento actual
         if self.actual is None:
             return None
         return self.actual.dato

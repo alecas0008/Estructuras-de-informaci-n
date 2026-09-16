@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./estilos.css">
+    <title>Simulador de Lista Enlazada</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="contenedor">
+        <header>
+            <h1>Simulador de Lista Enlazada</h1>
+            <p>Estructura de Datos</p>
+        </header>
+
+        <main class="grid-layout">
+            <!-- PANEL DE CONTROL (Menú) -->
+            <section class="panel panel-controles">
+                <h2>Menú de Operaciones</h2>
+                
+                <div class="grupo-control">
+                    <label for="opcion-menu">Seleccione una opción:</label>
+                    <select id="opcion-menu">
+                        <option value="1">1. Construir o inicializar la lista</option>
+                        <option value="2">2. Insertar elemento</option>
+                        <option value="3">3. Retirar elemento</option>
+                        <option value="4">4. Consultar la lista (Recorrido)</option>
+                        <option value="5">5. Determinar número de elementos</option>
+                        <option value="6">6. Determinar si la lista es vacía</option>
+                        <option value="7">7. Consultar elemento actual</option>
+                    </select>
+                </div>
+
+                <!-- ÁREA DINÁMICA DE ENTRADA DE DATOS -->
+                <div id="area-inputs" class="area-inputs">
+                    <!-- Los inputs se inyectarán aquí mediante JS según la opción elegida -->
+                </div>
+
+                <button id="btn-ejecutar" class="btn-primario">EJECUTAR OPERACIÓN</button>
+            </section>
+
+            <!-- PANEL DE RESULTADOS -->
+            <section class="panel panel-resultados">
+                <h2>Resultados</h2>
+                
+                <div class="caja-resultado">
+                    <h3>Mensaje del sistema:</h3>
+                    <p id="mensaje-sistema" class="mensaje neutro">Bienvenido. Por favor, inicialice la lista para comenzar.</p>
+                </div>
+
+                <div class="caja-resultado">
+                    <h3>Estado visual de la Lista:</h3>
+                    <div id="vista-lista" class="vista-lista">Inexistente</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="./taller.js"></script>
+</body>
