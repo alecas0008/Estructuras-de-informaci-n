@@ -133,7 +133,7 @@ class ListaEnlazada {
 }
 
 
-
+  //Conexion y manejo del DOM en html 
 
 
         let miLista = null;
