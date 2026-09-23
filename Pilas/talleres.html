@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talleres de Estructuras de Datos</title>
+    <style>
+        :root {
+            --fondo: #f4f7fb;
+            --texto: #1f2937;
+            --principal: #1d4ed8;
+            --secundario: #0f766e;
+            --borde: #dbe3ef;
+            --blanco: #ffffff;
+            --suave: #eef4ff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            color: var(--texto);
+            background: linear-gradient(135deg, #edf5ff, var(--fondo));
+        }
+
+        .contenedor { max-width: 1100px; margin: auto; padding: 32px 20px; }
+        header { margin-bottom: 28px; }
+        h1, h2, h3 { margin-top: 0; }
+        h1 { color: #12346b; margin-bottom: 8px; }
+        header p { margin: 0; color: #52657f; }
+        .tarjetas { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .tarjeta {
+            background: var(--blanco);
+            border: 1px solid var(--borde);
+            border-radius: 10px;
+            padding: 22px;
+            box-shadow: 0 8px 24px rgba(31, 60, 100, 0.08);
+        }
+        .tarjeta h2 { color: var(--principal); border-bottom: 2px solid var(--suave); padding-bottom: 10px; }
+        .tarjeta.lista h2 { color: var(--secundario); }
+        .explicacion { background: var(--suave); border-left: 4px solid var(--principal); padding: 12px; margin-bottom: 18px; }
+        .lista .explicacion { border-left-color: var(--secundario); }
+        .controles { display: flex; gap: 8px; margin-bottom: 14px; }
+        input, button { font: inherit; }
+        input { flex: 1; min-width: 0; padding: 10px; border: 1px solid var(--borde); border-radius: 6px; }
+        button { border: 0; border-radius: 6px; padding: 10px 14px; color: white; background: var(--principal); cursor: pointer; }
+        button:hover { filter: brightness(0.92); }
+        .lista button { background: var(--secundario); }
+        .estado { min-height: 44px; padding: 12px; background: #f8fafc; border: 1px solid var(--borde); border-radius: 6px; }
+        .resultado { min-height: 24px; color: #52657f; }
+        .pila-visual { display: flex; flex-direction: column-reverse; gap: 5px; min-height: 130px; padding: 10px; background: #f8fafc; border: 1px dashed var(--borde); border-radius: 6px; }
+        .elemento { padding: 9px; text-align: center; color: #12346b; background: #dbeafe; border-radius: 4px; font-weight: 600; }
+        .lista-visual { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; min-height: 130px; padding: 10px; background: #f8fafc; border: 1px dashed var(--borde); border-radius: 6px; }
+        .flecha { color: var(--secundario); font-weight: bold; }
+        .nota { margin-top: 24px; color: #52657f; font-size: 0.95rem; }
+
+        @media (max-width: 760px) {
+            .tarjetas { grid-template-columns: 1fr; }
+            .controles { flex-wrap: wrap; }
+            .controles input { flex-basis: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="contenedor">
+        <header>
+            <h1>Talleres de Estructuras de Datos</h1>
+            <p>Práctica guiada de pilas y listas enlazadas.</p>
+        </header>
+
+        <section class="tarjetas">
+            <article class="tarjeta">
+                <h2>Taller 2: Pilas</h2>
+                <div class="explicacion">
+                    <strong>Concepto:</strong> una pila trabaja con la regla LIFO: el último elemento que entra es el primero que sale.
+                </div>
+                <div class="controles">
+                    <input id="valor-pila" type="text" placeholder="Valor para apilar">
+                    <button id="apilar" type="button">Apilar</button>
+                    <button id="desapilar" type="button">Desapilar</button>
+                </div>
+                <div class="controles operaciones-pila">
+                    <button id="consultar-cima" type="button">Consultar cima</button>
+                    <button id="recorrer-pila" type="button">Recorrer</button>
+                    <button id="longitud-pila" type="button">Longitud</button>
+                    <button id="vacia-pila" type="button">¿Está vacía?</button>
+                </div>
+                <p id="resultado-pila" class="resultado">La pila está vacía.</p>
+                <div id="pila-visual" class="pila-visual" aria-live="polite"></div>
+            </article>
+
+            <article class="tarjeta lista">
+                <h2>Taller: Lista enlazada</h2>
+                <div class="explicacion">
+                    <strong>Concepto:</strong> cada nodo guarda un dato y una referencia al siguiente nodo de la cadena.
+                </div>
+                <div class="controles">
+                    <input id="valor-lista" type="text" placeholder="Valor para insertar">
+                    <button id="insertar-inicio" type="button">Inicio</button>
+                    <button id="insertar-final" type="button">Final</button>
+                    <button id="retirar-final" type="button">Retirar</button>
+                </div>
+                <p id="resultado-lista" class="resultado">La lista está vacía.</p>
+                <div id="lista-visual" class="lista-visual" aria-live="polite"></div>
+            </article>
+        </section>
+
+        <p class="nota"><strong>Operaciones practicadas:</strong> insertar, retirar, consultar el estado y recorrer la estructura.</p>
+    </main>
+
+    <script src="talleres.js"></script>
+</body>
+
+</html>
