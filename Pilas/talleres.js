@@ -8,11 +8,18 @@ class Pila {
     }
 
     apilar(valor) {
-        this.elementos.push(valor);
+        this.elementos[this.elementos.length] = valor;
     }
 
     desapilar() {
-        return this.elementos.pop();
+        if (this.estaVacia()) {
+            return undefined;
+        }
+
+        const ultimaPosicion = this.elementos.length - 1;
+        const valor = this.elementos[ultimaPosicion];
+        this.elementos.length = ultimaPosicion;
+        return valor;
     }
 
     // La cima es el último elemento almacenado en la pila.
@@ -22,7 +29,13 @@ class Pila {
 
     // Devuelve todos los elementos desde la base hasta la cima.
     recorrer() {
-        return [...this.elementos];
+        const recorrido = [];
+
+        for (let posicion = 0; posicion < this.elementos.length; posicion++) {
+            recorrido[posicion] = this.elementos[posicion];
+        }
+
+        return recorrido;
     }
 
     longitud() {
